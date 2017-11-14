@@ -3,4 +3,4 @@ Given 8 letters + 1 "key" letter, try to find all words with 4-9 characters.  Al
 
 Requires a [working kivy environment](https://kivy.org/docs/installation/installation.html) to build/run
 
-![alt text](http://rawawesome.com/word-game.png "screenshot")
+![alt text](http://rawawesome.com/word-game.gif "screenshot")
