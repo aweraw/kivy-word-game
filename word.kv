@@ -1,0 +1,110 @@
+#:kivy 1.8.0
+
+<GridCell>:
+    font_size: '48sp'
+    font_name: "source-code-pro.bold.ttf"
+    background_color: 0, 0, 0, 1
+    background_down: 'white_button.png'
+    background_normal: 'white_button.png'
+
+<WordCell>:
+    font_size: '36sp'
+    font_name: "source-code-pro.bold.ttf"
+    background_down: 'white_button.png'
+    background_normal: 'white_button.png'
+    size_hint: None, None
+    canvas.before:
+        Color:
+            rgba: 0, 1, 0, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<WordRow>:
+    size_hint: 0.8, None
+    height: self.width / 9
+    canvas:
+        Color:
+            rgba: 0.01, 0.01, 0.01, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<GameGrid>:
+    cols: 3
+    size_hint: 0.8, 0.4
+    canvas:
+        Color:
+            rgba: 0.01, 0.01, 0.01, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<Timer>:
+    font_name: "source-code-pro.bold.ttf"
+    size_hint: None, 0.05
+    text: self.time_str
+
+<DynamicLabel>:
+    font_name: "source-code-pro.bold.ttf"
+    size_hint: None, 0.05
+
+<FoundLabel>:
+    size_hint: None, None
+    size: self.texture_size
+    padding: '3dp', '1dp'
+    font_size: '12sp'
+
+<FoundArea>:
+    size_hint: 0.8, None
+    canvas:
+        Color:
+            rgba: 0.01, 0.01, 0.01, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<WordGame>:
+    grid: grid
+    word_row: word_row
+    progress: progress
+    timer: timer
+    found_area: found_area
+
+    GameGrid:
+        id: grid
+        pos: 0.1 * root.width, root.height - self.height - int(0.06 * root.height)
+
+        GridCell:
+        GridCell:
+        GridCell:
+        GridCell:
+        GridCell:
+        GridCell:
+        GridCell:
+        GridCell:
+        GridCell:
+
+    Timer:
+        id: timer
+        pos: grid.x, grid.y - self.height
+
+    DynamicLabel:
+        id: progress
+        text: str(root.words_found_n) + ' of ' + str(root.words_total)
+        pos: grid.right - self.width, grid.y - self.height
+
+    DynamicLabel:
+        id: score:
+        text: "Score: " + str(root.score)
+        pos: root.center_x - (self.width / 2), grid.y - self.height
+
+    WordRow:
+        id: word_row
+        pos: timer.x, timer.y - self.height
+
+    FoundArea:
+        id: found_area
+        pos: word_row.x, word_row.y - self.height - (timer.height / 2)
+        height:
+
