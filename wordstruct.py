@@ -41,11 +41,13 @@ class WordStruct(object):
 
     def make_grid_game(self, seed_word=None, alpha_word_len=9):
         if (seed_word and len(seed_word) > 9) or alpha_word_len > 9:
-            raise ValueError("Maximum len(seed_word) and alpha_word_len value is 9")
+            raise ValueError(
+                "Maximum len(seed_word) and alpha_word_len value is 9")
         if seed_word:
             parent = seed_word
         else:
-            parent = sample(tuple(w for w in self.wset if len(w) == alpha_word_len), 1)[0]
+            wtup = tuple(w for w in self.wset if len(w) == alpha_word_len)
+            parent = sample(wtup, 1)[0]
 
         if len(parent) < 9:
             # create a set of candidate characters to take number up to 9,
@@ -57,8 +59,10 @@ class WordStruct(object):
             winners = sample(candidates, remaining)
             parent += ''.join(winners)
 
-        # choose which letter will be in the centre, no vowels or cruddy letters
-        centre_char = sample([c for c in parent if c not in "aeiouxyzqjk"], 1)[0]
+        # choose which letter will be in the centre,
+        # no vowels or cruddy letters
+        good_ltrs = [c for c in parent if c not in "aeiouxyzqjk"]
+        centre_char = sample(good_ltrs, 1)[0]
         # create a list for the letter that will surround the centre
         rest = list(parent)
         rest.remove(centre_char)
@@ -68,10 +72,13 @@ class WordStruct(object):
             for k in (centre_char+''.join(x) for x in combinations(rest, i)):
                 words.extend(self.collect(k))
 
-        # cull words that do not contain the centre character, and sort the rest
-        usable_words = sorted(set(w for w in words if centre_char in w), key=lambda x: (len(x), x))
+        # cull words that do not contain the centre character,
+        # and sort the rest
+        wset = set(w for w in words if centre_char in w)
+        usable_words = sorted(wset, key=lambda x: (len(x), x))
 
         return centre_char, parent, usable_words
+
 
 if __name__ == '__main__':
     ws = WordStruct(open('words.txt'))

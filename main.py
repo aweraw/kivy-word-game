@@ -2,7 +2,9 @@ from random import shuffle
 
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
-from kivy.properties import NumericProperty, ObjectProperty, BooleanProperty, DictProperty, StringProperty
+from kivy.properties import (
+    NumericProperty, ObjectProperty, BooleanProperty,
+    DictProperty, StringProperty)
 from kivy.clock import Clock
 from kivy.core.window import Window
 
@@ -70,17 +72,22 @@ class WordGame(FloatLayout):
             self.words_remaining.remove(word)
             self.score += self.score_word(word)
             return word
-        elif word in self.words_found and not self.flashing and not self.word_row.highlit:
+        elif (word in self.words_found and not self.flashing and
+                not self.word_row.highlit):
             self.word_row.highlit = True
             self.word_row.set_color(red)
             self.found_area.highlight_label(self.words_found[word])
-        # we're already red, but adding an extra character finds another already found word
-        elif word in self.words_found and word != self.found_area.highlit_text() and self.word_row.highlit:
+        # we're already red, but adding an extra character finds
+        # another already found word
+        elif (word in self.words_found and
+                word != self.found_area.highlit_text() and
+                self.word_row.highlit):
             self.word_row.set_color(red)
             self.found_area.lowlight_label()
             self.found_area.highlight_label(self.words_found[word])
         # it's probably not a word, so turn green again
-        elif word not in self.words_found and not self.flashing and self.word_row.highlit:
+        elif (word not in self.words_found and
+                not self.flashing and self.word_row.highlit):
             self.word_row.highlit = False
             self.word_row.set_color(green)
             self.found_area.lowlight_label()
@@ -89,9 +96,9 @@ class WordGame(FloatLayout):
 
     def score_word(self, word):
         score = 0
-        l = len(word)
+        ln = len(word)
         for c in word:
-            score += letter_vals[c] * l
+            score += letter_vals[c] * ln
         return score
 
 
@@ -102,6 +109,7 @@ class WordApp(App):
         game.word_row.bind(pos=game.word_row.realign_cells)
         Clock.schedule_interval(game.update, 1.0/60.0)
         return game
+
 
 if __name__ == '__main__':
     WordApp().run()

@@ -20,7 +20,10 @@ class Timer(DynamicLabel):
     def format_time(self):
         minutes, seconds = divmod(self.time, 60)
         hours, minutes = divmod(minutes, 60)
-        t_dict = {"seconds": seconds, "minutes": int(minutes), "hours": int(hours)}
+        t_dict = {
+            "seconds": seconds,
+            "minutes": int(minutes),
+            "hours": int(hours)}
         s_fmt = "{seconds:.1f}s"
         m_fmt = "{minutes}m"
         h_fmt = "{hours}h"
